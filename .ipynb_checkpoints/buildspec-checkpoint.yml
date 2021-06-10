@@ -1,5 +1,12 @@
-version: 0.2
-
-artifacts:
-  files:
-    - '**/*'
+phases:
+  pre_build:
+    commands:
+      - echo "Running pre build commands"
+      - apt-get update
+      - pip3 install -r requirements.txt
+  build:
+    commands:
+      - echo "Running build commands"
+      - echo Build completed on "date"
+      
+      version: 0.2
