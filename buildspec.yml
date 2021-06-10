@@ -10,6 +10,7 @@ phases:
     commands:
       - echo "Running build commands"
       - echo Build completed on "date"
+      - python main.py
       
 artifacts:
   files:
