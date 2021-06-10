@@ -14,12 +14,6 @@ phases:
       - apt-get -y install python3-pip
       - pip3 install awscli --upgrade --user
       - pip3 install -r requirements.txt
-      - echo "Reducing size of SageMaker to run on lambda"
-      - pip3 install sagemaker --target sagemaker-installation
-      - cd sagemaker-installation
-      - find . -type d -name "tests" -exec rm -rfv {} +
-      - find . -type d -name "__pycache__" -exec rm -rfv {} +
-      - zip -r sagemaker_lambda_light.zip
       - cd ..
   build:
     commands:
