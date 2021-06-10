@@ -15,7 +15,7 @@ import joblib
 
 # from flask_restful import Api, Resource, reqparse
 
-with open('C:/Users/rgayu/PycharmProjects/Salarydata.pkl', 'rb') as model_file:
+with open('model/Salarydata.pkl', 'rb') as model_file:
     model = joblib.load(model_file)
 
 app = Flask(__name__, template_folder='templates')
