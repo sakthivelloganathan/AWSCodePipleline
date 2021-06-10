@@ -22,7 +22,7 @@ phases:
       - zip -r sagemaker_lambda_light.zip
       - cd ..
   build:
-    commands:.
+    commands:
       - echo "Running build commands"
       - sls deploy --verbose
       - echo "Finished deploying to Lambda and SQS"
