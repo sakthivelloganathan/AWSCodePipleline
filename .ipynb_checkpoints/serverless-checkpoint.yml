@@ -1,53 +1,25 @@
-service: model-predict
-package:
-  include:
-    - ./model_predict_lambda.py
+service: serverless-flask
+
+plugins:
+  - serverless-python-requirements
+  - serverless-wsgi
+
+custom:
+  wsgi:
+    app: app.app
+    packRequirements: false
+  pythonRequirements:
+    dockerizePip: non-linux
+
 provider:
   name: aws
   runtime: python3.6
-  iamRoleStatements:
-    - Effect: "Allow"
-      Action: 
-        - "lambda:InvokeFunction"
-        - "iam:GetRole"
-        - "sqs:CreateQueue"
-        - "sqs:GetQueueUrl"
-        - "sqs:SendMessage"
-        - "ecr:DescribeRepositories"        
-        - "cloudformation:DescribeStacks"
-        - "sagemaker:InvokeEndpoint" 
-      Resource: "*"
+  stage: dev
+  region: us-west-2
+
 functions:
-  get_model_predictions:
-    handler: model_predict_lambda.model_predict_handler
-    provisionedConcurrency: 1 # optional, Count of provisioned lambda instances
-    reservedConcurrency: 1 # optional, reserved concurrency limit for this function. By default, AWS uses account concurrency limit
+  app:
+    handler: wsgi.handler
     events:
-      - sqs:
-          arn:
-            Fn::GetAtt:
-              - TriggerLambdaSQS
-              - Arn
-          batchSize: 1
-resources:
-  Resources:
-    TriggerLambdaSQS:
-      Type: "AWS::SQS::Queue"
-      Properties:
-        QueueName: "TriggerLambdaSQS"
-        VisibilityTimeout: 30
-        MessageRetentionPeriod: 60
-        RedrivePolicy:
-          deadLetterTargetArn:
-            "Fn::GetAtt":
-              - DeadletterSQS
-              - Arn
-          maxReceiveCount: 1
-    DeadletterSQS:
-      Type: "AWS::SQS::Queue"
-      Properties:
-        QueueName: "DeadletterSQS"
-        VisibilityTimeout: 30
-        MessageRetentionPeriod: 60
-plugins:
-  - serverless-python-requirements
+      - http: ANY /
+      - http: 'ANY {proxy+}'
