@@ -5,7 +5,7 @@ phases:
     commands:
       - echo "Running pre build commands"
       - apt-get update
-      - pip3 install -r AWSCodePipleline/requirements.txt
+      - pip3 install -r requirements.txt
   build:
     commands:
       - echo "Running build commands"
@@ -15,4 +15,4 @@ phases:
 artifacts:
   files:
     - '**/*'
-  base-directory: AWSCodePipleline
+  base-directory: my-api
