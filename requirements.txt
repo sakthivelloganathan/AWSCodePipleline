@@ -1,7 +1,7 @@
 numpy==1.20.3
 pandas==1.2.4
 scikit-learn==0.24.2
-joblib==1.0.1
+joblib==1.2.0
 Flask==2.0.0
 flagger==3.1.0
 sklearn==0.0
